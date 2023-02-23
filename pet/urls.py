@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.urls import include, path
 from django.contrib import admin
 
@@ -13,10 +14,14 @@ urlpatterns = [
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
-    path('accounts/', include('allauth.urls')),
-    path('accounts/', include('userauth.urls')),
 ]
 
+urlpatterns += i18n_patterns(
+    path('accounts/', include('allauth.urls')),
+    path('accounts/', include('userauth.urls')),
+    # path('language/', include('cms.urls')),
+    # path('comments/', include('django_comments_xtd.urls')),
+)
 
 if settings.DEBUG:
     from django.conf.urls.static import static
