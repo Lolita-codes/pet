@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags%}
+{% load wagtailcore_tags wagtailimages_tags wagtailembeds_tags %}
 
 {% for block in page.body %}
     {% if block.block_type == 'image' %}
@@ -11,6 +11,11 @@
             {% else %}
                 {% image block.value.image width-2400 class="img-fluid" %}
             {% endif %}
+            {{ block.value.caption }}
+        </div>
+    {% elif block.block_type == 'video' %}
+        <div class="block-{{ block.block_type }}-{{ block.value.float }} block-{{ block.block_type }}-{{ block.value.size }}">
+            {% embed block.value.video.url %}
             {{ block.value.caption }}
         </div>
     {% else %}

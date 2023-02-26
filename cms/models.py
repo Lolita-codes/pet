@@ -1,10 +1,10 @@
 from django.db import models
-from wagtail.admin.panels import FieldPanel, StreamFieldPanel, MultiFieldPanel, PageChooserPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail import blocks
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
-from cms.blocks import InlineImageBlock
+from cms.blocks import InlineImageBlock, InlineVideoBlock
 
 
 class HomePage(Page):
@@ -46,13 +46,14 @@ class ArticlePage(Page):
     body = StreamField([
         ('paragraph', blocks.RichTextBlock()),
         ('image', InlineImageBlock()),
+        ('video', InlineVideoBlock()),
     ], use_json_field=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('intro'),
         FieldPanel('featured'),
         FieldPanel('image'),
-        StreamFieldPanel('body'),
+        FieldPanel('body'),
     ]
 
 
