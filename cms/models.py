@@ -1,5 +1,5 @@
 from django.db import models
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanelExtend
 from wagtail import blocks
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
@@ -44,7 +44,9 @@ class ArticlePage(Page):
     )
     featured = models.BooleanField(default=False)
     body = StreamField([
-        ('paragraph', blocks.RichTextBlock()),
+        ('paragraph', blocks.RichTextBlock(
+            features=['h1', 'h2', 'h3', 'h4', 'h5', 'bold', 'italic', 'ol', 'ul', 'hr', 'link', 'image', 'code',
+                      'blockquote'])),
         ('image', InlineImageBlock()),
         ('video', InlineVideoBlock()),
     ], use_json_field=True)
