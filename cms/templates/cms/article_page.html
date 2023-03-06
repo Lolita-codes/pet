@@ -18,6 +18,17 @@
         </div>
     </div>
 
+     {% if page.themes.all %}
+        <div class="container-fluid mt-4">
+            {% trans "Themes:" %}
+            {% for themepage in page.themepages %}
+            {% for translation in themepage.get_translations.live %}
+                <a href="{{ translation.url }}" class="badge badge-primary">{{ translation.theme }}</a>
+            {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
      {% if page.body %}
         <div class="container-fluid mt-4">
             <div class="row">
