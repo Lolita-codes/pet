@@ -156,6 +156,14 @@ class ArticleIndexPage(Page):
     ]
 
 
+class TextPage(Page):
+    text = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('text', classname='full'),
+    ]
+
+
 @register_snippet
 class Menu(ClusterableModel):
 
@@ -226,10 +234,8 @@ class MenuItem(Orderable):
 
     def trans_url(self, language_code):
         if self.link_url:
-            print('hi2')
             return '/' + language_code + str(self.link_url)
         elif self.link_page:
-            print('hi3')
             return self.trans_page(language_code).url
         return None
 
@@ -247,3 +253,19 @@ class MenuItem(Orderable):
 
     def __str__(self):
         return self.title
+
+
+@register_snippet
+class CompanyLogo(models.Model):
+    name = models.CharField(max_length=250)
+    logo = models.ForeignKey(
+        'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
+    )
+
+    panels = [
+        FieldPanel('name', classname='full'),
+        FieldPanel('logo'),
+    ]
+
+    def __str__(self):
+        return self.name

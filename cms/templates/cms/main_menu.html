@@ -1,6 +1,7 @@
 {% load wagtailimages_tags cms_tags %}
 
 {% get_menu "main" None request.user.is_authenticated as navigation %}
+{% company_logo as logo %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
     <a class="navbar-brand" href="/">{% image logo.logo fill-50x50 %}{{ logo.name }}</a>
