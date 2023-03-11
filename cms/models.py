@@ -217,14 +217,12 @@ class MenuItem(Orderable):
     ]
 
     def trans_page(self, language_code):
-        print(language_code)
         if self.link_page:
             can_page = self.link_page
             if language_code == settings.LANGUAGE_CODE: # requested language is the canonical language
                 return can_page
             try:
                 language = Locale.objects.get(language_code=language_code)
-                print('hey')
             except Locale.DoesNotExist:# no language found, return original page
                 return self.link_page
             translated_page = can_page.get_translation(language)
