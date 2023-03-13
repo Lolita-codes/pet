@@ -21,7 +21,6 @@ def get_menu(slug, page, logged_in):
                 menu_items.append({'title': candidate.title, 'url': candidate.trans_url(language_code),
                                    'slug': candidate.slug_of_submenu, 'page': candidate.trans_page(language_code),
                                    'icon': candidate.icon})
-        print(menu_items)
         return menu_items
     except Menu.DoesNotExist:
         pass
@@ -35,7 +34,6 @@ def get_menu(slug, page, logged_in):
             if candidate.show_in_menus:
                 menu_items.append({'title': candidate.title, 'url': candidate.url,
                                    'slug': None, 'page': candidate, 'icon': None})
-        print(menu_items)
         return menu_items
     except AttributeError:
         # neither custom menu nor valid page argument; return None

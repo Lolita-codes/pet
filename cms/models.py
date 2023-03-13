@@ -2,6 +2,7 @@ from django import forms
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
+from django_comments_xtd.models import XtdComment
 from django_extensions.db.fields import AutoSlugField
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalManyToManyField, ParentalKey
@@ -87,7 +88,6 @@ class ThemePage(Page):
     caption = models.CharField(blank=True, null=True, max_length=255)
 
     def articlepages(self):
-        print('hi')
         return self.theme.articlepages.filter(locale=self.locale_id).live().order_by('-first_published_at')
 
     content_panels = Page.content_panels + [
@@ -115,8 +115,10 @@ class ArticlePage(Page):
 
     def themepages(self):
         ans = ThemePage.objects.filter(theme__in=self.themes.all(), locale=self.locale_id)
-        print(ans)
         return ans
+
+    def get_absolute_url(self):
+        return self.get_url()
 
     content_panels = Page.content_panels + [
         FieldPanel('intro'),
@@ -124,6 +126,7 @@ class ArticlePage(Page):
         FieldPanel('featured'),
         FieldPanel('image'),
         FieldPanel('body'),
+        InlinePanel('customcomments', label=_("Comments")),
     ]
 
 
@@ -267,3 +270,13 @@ class CompanyLogo(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CustomComment(XtdComment):
+    page = ParentalKey(ArticlePage, on_delete=models.CASCADE, related_name='customcomments')
+
+    def save(self, *args, **kwargs):
+        if self.user:
+            self.user_name = self.user.display_name
+        self.page = ArticlePage.objects.get(pk=self.object_pk)
+        super(CustomComment, self).save(*args, **kwargs)

@@ -28,6 +28,7 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('allauth.urls')),
     path('accounts/', include('userauth.urls')),
     path('language/', include('cms.urls')),
+    path('comments/', include('django_comments_xtd.urls')),
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
