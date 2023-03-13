@@ -1,3 +1,4 @@
+from allauth.account.forms import LoginForm
 from django import forms
 from django.conf import settings
 from django.db import models
@@ -119,6 +120,11 @@ class ArticlePage(Page):
 
     def get_absolute_url(self):
         return self.get_url()
+
+    def serve(self, request, *args, **kwargs):
+        response = super().serve(request, 'cms/article_page.html')
+        response.context_data['login_form'] = LoginForm()
+        return response
 
     content_panels = Page.content_panels + [
         FieldPanel('intro'),
