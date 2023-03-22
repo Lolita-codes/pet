@@ -8,8 +8,9 @@ from django_extensions.db.fields import AutoSlugField
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalManyToManyField, ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel, InlinePanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel, InlinePanel, FieldRowPanel
 from wagtail import blocks
+from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page, TranslatableMixin, Locale, Orderable
 from wagtail.snippets.models import register_snippet
@@ -286,3 +287,31 @@ class CustomComment(XtdComment):
             self.user_name = self.user.display_name
         self.page = ArticlePage.objects.get(pk=self.object_pk)
         super(CustomComment, self).save(*args, **kwargs)
+
+
+class FormField(AbstractFormField):
+    page = ParentalKey(
+        'ContactPage',
+        on_delete=models.CASCADE,
+        related_name='form_fields',
+    )
+
+
+class ContactPage(AbstractEmailForm):
+    landing_page_template = "cms/contact_page_landing.html"
+
+    intro = RichTextField(blank=True)
+    thank_you_text = RichTextField(blank=True)
+
+    content_panels = AbstractEmailForm.content_panels + [
+        FieldPanel('intro'),
+        InlinePanel('form_fields', label='Form Fields'),
+        FieldPanel('thank_you_text'),
+        MultiFieldPanel([
+            FieldRowPanel([
+                FieldPanel('from_address', classname="col6"),
+                FieldPanel('to_address', classname="col6"),
+            ]),
+            FieldPanel("subject"),
+        ], heading="Email Settings"),
+    ]
