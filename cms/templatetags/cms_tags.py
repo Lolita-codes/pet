@@ -34,6 +34,7 @@ def get_menu(slug, page, logged_in):
             if candidate.show_in_menus:
                 menu_items.append({'title': candidate.title, 'url': candidate.url,
                                    'slug': None, 'page': candidate, 'icon': None})
+        print(menu_items)
         return menu_items
     except AttributeError:
         # neither custom menu nor valid page argument; return None

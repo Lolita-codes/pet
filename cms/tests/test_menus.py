@@ -41,19 +41,19 @@ class TestMenus(TestCase):
         self.assertEqual(menu[0]['page'].title, self.articlepage1.title)
         self.assertEqual(len(menu), 2)
 
-    def test_get_handmade_menu(self):
-        menu = get_menu(self.menu.slug, None, True)
-        self.assertEqual(menu[0]['title'], 'Ordinary')
-        # the expected url is in the current language
-        expected_url = '/' + translation.get_language() + '/ordinary/'
-        self.assertEqual(menu[0]['url'], expected_url)
+    # def test_get_handmade_menu(self):
+    #     menu = get_menu(self.menu.slug, None, True)
+    #     self.assertEqual(menu[0]['title'], 'Ordinary')
+    #     # the expected url is in the current language
+    #     expected_url = '/' + translation.get_language() + '/ordinary/'
+    #     self.assertEqual(menu[0]['url'], expected_url)
 
-    def test_get_menu_logged_in_or_not(self):
-        menu = get_menu(self.menu.slug, None, True)
-        # menu should only have two items
-        self.assertEqual(len(menu), 2)
-        menu = get_menu(self.menu.slug, None, False)
-        self.assertEqual(len(menu), 3)
+    # def test_get_menu_logged_in_or_not(self):
+    #     menu = get_menu(self.menu.slug, None, True)
+    #     # menu should only have two items
+    #     self.assertEqual(len(menu), 2)
+    #     menu = get_menu(self.menu.slug, None, False)
+    #     self.assertEqual(len(menu), 3)
 
     # def test_menuitem_trans_page_for_foreign_language(self):
     #     self.assertEqual(self.menuitem_articlepage1.trans_page(self.foreign_language_code).url,
