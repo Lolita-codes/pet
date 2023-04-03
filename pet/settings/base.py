@@ -296,7 +296,7 @@ COMMENTS_XTD_SALT = (b"Timendi causa est nescire. "
                      b"Aequam memento rebus in arduis servare mentem.")
 
 # Source mail address used for notifications.
-COMMENTS_XTD_FROM_EMAIL = env['EMAIL_HOST_USER']
+COMMENTS_XTD_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
 
 # Contact mail address to show in messages.
 COMMENTS_XTD_CONTACT_EMAIL = os.environ.get('EMAIL_HOST_USER')
